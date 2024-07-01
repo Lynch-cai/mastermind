@@ -18,12 +18,12 @@
             </div>
             <div class="circle border-yellow-600 border-2 bg-yellow-400 text-white" @click="selectColor('yellow')">
                 <span v-if="selectedColor === 'yellow'">
-                    <font-awesome-icon :icon="['fas', 'check']" size="2xl" class="text-neutral-500" />
+                    <font-awesome-icon :icon="['fas', 'check']" size="2xl" />
                 </span>
             </div>
-            <div class="circle border-white-600 border-2 bg-white t400-black" @click="selectColor('white')">
-                <span v-if="selectedColor === 'white'">
-                    <font-awesome-icon :icon="['fas', 'check']" size="2xl" class="text-neutral-500" />
+            <div class="circle border-purple-600 border-2 bg-purple-400 text-white" @click="selectColor('purple')">
+                <span v-if="selectedColor === 'purple'">
+                    <font-awesome-icon :icon="['fas', 'check']" size="2xl" />
                 </span>
             </div>
             <div class="circle border-pink-600 border-2 bg-pink-400 text-white" @click="selectColor('pink')">
@@ -38,7 +38,7 @@
                     class="circle border-2"
                     v-for="(circle, circleIndex) in 4"
                     @click="applyColor(rowIndex, circleIndex)"
-                    :class="!rowsData[rowIndex][circleIndex] ? 'bg-neutral-100' : rowsData[rowIndex][circleIndex] === 'white' ? 'bg-white' : 'bg-' + rowsData[rowIndex][circleIndex] + '-400'"
+                    :class="!rowsData[rowIndex][circleIndex] ? 'bg-neutral-300' : 'bg-' + rowsData[rowIndex][circleIndex] + '-400'"
                 ></div>
                 <div class="ml-2" v-if="step === rowIndex">
                     <button class="button rounded-full w-[88px] h-full" :disabled="!(rowsData[rowIndex].filter((row) => row === '').length === 0)" @click="verifyAnswer()">Verifier</button>
@@ -61,7 +61,8 @@ export default {
             numberOfRows: 10,
             rowsData: [] as string[][],
             rowsHistory: [] as boolean[][],
-            answer: ['blue', 'green', 'red', 'yellow'],
+            answer: ['', '', '', ''],
+            allColors: ['blue', 'green', 'red', 'yellow', 'purple', 'pink'],
             step: 0,
         }
     },
@@ -80,7 +81,9 @@ export default {
             }
         }
 
-        // TODO: Randomize answer
+        this.answer = this.answer.map(() => {
+            return this.allColors[Math.floor(Math.random() * this.allColors.length)]
+        })
     },
     methods: {
         selectColor(color: string) {
@@ -120,8 +123,6 @@ export default {
             if (this.rowsData[this.step][3] === this.answer[3]) {
                 this.rowsHistory[this.step][3] = true
             }
-
-            console.log(this.rowsHistory)
 
             this.step += 1
         },
