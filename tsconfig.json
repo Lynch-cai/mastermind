@@ -12,6 +12,6 @@
         }
     ],
     "compilerOptions": {
-        "module": "bundler"
+        "module": "NodeNext"
     }
 }
